@@ -70,12 +70,7 @@ def create_app():
     jwt = JWTManager(app)
     
     # Enable CORS for all routes, allowing credentials and specific origins
-        CORS(app, 
-         supports_credentials=True, 
-         origins=['*'],
-         methods=['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-         allow_headers=['Content-Type', 'Authorization', 'X-Tenant-Slug'],
-         expose_headers=['X-Tenant-Slug'])
+        CORS(app, supports_credentials=True, origins=['*'])
     
     # Initialize tenant middleware
     tenant_middleware = TenantMiddleware(app)
