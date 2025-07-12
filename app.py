@@ -1,17 +1,36 @@
+from flask import Flask, jsonify, request
+from flask_cors import CORS
+import os
+
+app = Flask(__name__)
+CORS(app, origins=['*'])
+
+@app.route('/')
+def home():
+    return jsonify({'message': 'API Working'})
+
+@app.route('/health')
+def health():
+    return jsonify({'status': 'healthy'})
+
 @app.route('/api/v1/auth/login', methods=['POST', 'OPTIONS'])
 def login():
     if request.method == 'OPTIONS':
         return '', 200
     
-    data = request.get_json() if request.is_json else {}
-    username = data.get('username', '')
-    
     return jsonify({
+        'success': True,
         'user': {
             'id': 1,
-            'username': username,
+            'username': 'admin',
+            'email': 'admin@test.com',
             'role': 'admin'
         },
-        'token': 'test-token-123'
+        'token': 'fake-jwt-token-123',
+        'message': 'Login successful'
     })
+
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
 
